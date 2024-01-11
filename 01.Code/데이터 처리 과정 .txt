@@ -1,0 +1,40 @@
+데이터 처리 과정 
+
+방문지 정보 csv 파일 
+
+1.관광지 선택 시 'VISIT_AREA_TYPE_CD' 1~ 8까지 가져오는데 이게 어떤 내용인지 추가해주기 
+2.결측치 제거 ('LOTNO_ADDR') 제거 전 후로 시각화 자료 사용 
+3. 데이터 가져오기 전 카이제곱 독립성 검증을 통해서 만족도와 다른 변수간의 관계를 미리 확인하여 참고하였음 
+ 
+
+카이제곱 독립성 검증이란? 
+
+두 가지 범주형 또는 명목형 변수가 관련될 가능성 여부를 확인하는 데 사용되는 통계적 가설 검정으로 우리는 데이터의 만족도를 기준으로 추천 여행지를 추출할 예정이라 
+독립성 검증 방법으로 만족도와 다른 변수간 관계를 검증하였다. (상관관계는 모든 데이터가 숫자로 변경 해야 하나 방문지 정보 등 숫자로 변경 불가한 데이터가 포함 되어 위 검증 방법을 선택)
+
+참고: 카이제곱 검증에는 2가지 데이터가 있음
+1. Chi-square value (카이제곱 통계량): 변수 간의 독립성 여부를 검증하는 통계적 값으로, 값이 클수록 두 변수 간에 관련성이 높아짐
+2. P-value (유의확률): 통계적 가설 검정에서, 귀무가설을 기각할 확률을 나타냅니다. 작을수록 두 변수 간에 통계적으로 유의미한 관계가 있다고 판단
+
+히트맵 png. chi_square_value, p_value 자료 추가 
+
+위 내용을 참고하여 우리에게 필요한 데이터를 가져오게 되었다. 
+
+3.여행지 csv 에서 가져오는 데이터 항목 상세 설명, 
+'TRAVEL_ID', 'VISIT_AREA_NM', 'SIDO', 'GUNGU', 'EUPMYEON', 'VISIT_AREA_TYPE_CD', 'DGSTFN',
+                                  'REVISIT_INTENTION', 'RCMDTN_INTENTION', 'RESIDENCE_TIME_MIN', 'REVISIT_YN
+
+여행 csv 에서 가져오는 데이터 항목 
+travel = travel[['TRAVEL_ID', 'TRAVELER_ID', 'TRAVEL_MISSION_PRIORITY']]
+
+여행객master csv 에서 가져오는 데이터 항목 
+traveller_master = traveller_master[['TRAVELER_ID', 'GENDER', 'AGE_GRP', 'INCOME', 'TRAVEL_STYL_1', 
+                                     'TRAVEL_STYL_2', 'TRAVEL_STYL_3', 'TRAVEL_STYL_4', 'TRAVEL_STYL_5', 
+                                     'TRAVEL_STYL_6', 'TRAVEL_STYL_7','TRAVEL_STYL_8', 
+                                      'TRAVEL_MOTIVE_1', 'TRAVEL_NUM', 'TRAVEL_COMPANIONS_NUM' ]]
+
+
+결측치 제거 후 데이터 프레임 머지, 
+
+훈련세트와 테스트 세트를 나누어 저장. 
+훈련 세트는 머신러닝 트레이닝에 사용, 테스트 세트로 이후  여행지 예측 할 때 사용 예정 
